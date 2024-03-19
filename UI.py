@@ -1,26 +1,32 @@
 import pygame
 import pygame_menu
+SURFACE_COLOR = (255, 255, 255)
+class Sprite(pygame.sprite.Sprite):
+    def __init__(self, imagePath):
+        super().__init__()
+        self.image = pygame.image.load(imagePath)#.convert()
+        self.height = self.image.get_height()
+        self.width =self.image.get_width()
+        self.rect = self.image.get_rect()
 
 pygame.init()
-surface = pygame.display.set_mode((600, 400))
+surface = pygame.display.set_mode((600, 700))
 
-def set_difficulty(value, difficulty):
-    # Do the job here !
-    pass
+all_sprites_list = pygame.sprite.Group()
+#set up sprites
+boardSprite =Sprite("assets/BoardSprite.png")
+boardSprite.rect.x = 0
+boardSprite.rect.y=100
+all_sprites_list.add(boardSprite)
 
-def set_letter(value, letter):
-    # Do the job here !
-    pass
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    surface.fill(SURFACE_COLOR)
+    all_sprites_list.draw(surface)
+    pygame.display.flip()
 
-def start_the_game():
-    # Do the job here !
-    pass
-
-menu = pygame_menu.Menu('Welcome', 400, 300,
-                       theme=pygame_menu.themes.THEME_BLUE)
-
-menu.add.selector('Play as :', [('X (go first)', 1), ('O (go second)', 2)], onchange=set_letter)
-menu.add.selector('Difficulty :', [('Easy', 1), ('Medium', 2), ('Hard', 3)], onchange=set_difficulty)
-menu.add.button('Play', start_the_game)
-menu.add.button('Quit', pygame_menu.events.EXIT)
-menu.mainloop(surface)
+# Done! Time to quit.
+pygame.quit()
