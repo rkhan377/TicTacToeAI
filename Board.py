@@ -1,3 +1,5 @@
+import copy
+
 class Board:
     def __init__(self):
         self.boardArray = [ ['-']*3 for i in range(3)]
@@ -50,5 +52,10 @@ class Board:
     def printBoard(self):
         for row in self.boardArray:
             print(row)
+    
+    def copy(self):
+        cpy = Board()
+        cpy.boardArray = copy.deepcopy(self.boardArray)
+        return cpy
 
 
