@@ -38,15 +38,15 @@ class Board:
     
     def isGameDone(self):
         if self.checkWin('X'):
-            print("X wins")
+            #print("X wins")
             return "X"
         if self.checkWin('O'):
-            print("O wins")
+            #print("O wins")
             return "O"
         for row in self.boardArray:
             if any(space == '-' for space in row):
                 return "In Progress"
-        print("Tie")
+        #print("Tie")
         return "Tie"
     
     def printBoard(self):

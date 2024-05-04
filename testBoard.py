@@ -1,4 +1,5 @@
 from Board import Board
+from Opponent import Opponent
 import random
 
 #intialize board
@@ -8,6 +9,7 @@ turn = 1
 #variable used to check if we need to regenerate where to place next letter 
 notPlaced = True
 # loop until tie or winner
+'''
 while "In Progress" == board.isGameDone():
     if turn % 2 != 0: #if the turn is odd, Xs turn
         while notPlaced:
@@ -26,3 +28,15 @@ while "In Progress" == board.isGameDone():
     print("Turn "+str(turn))
     board.printBoard()
     turn=turn+1
+    
+'''
+
+botLetter = "X"
+bot = Opponent(botLetter)
+
+testBoard = Board()
+testBoard.setBoard(["X","O","X","O","O","X","-","-","-"])
+testBoard.printBoard()
+
+turn = bot.playTurn(board)
+print(turn)
