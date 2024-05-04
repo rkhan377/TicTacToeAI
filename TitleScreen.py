@@ -6,15 +6,12 @@ pygame.init()
 surface = pygame.display.set_mode((600, 700))
 
 def set_difficulty(value, difficulty):
-    # Do the job here !
     pass
 
 def set_letter(value, letter):
-    # Do the job here !
     pass
 
 def start_the_game():
-    # Do the job here !
     pass
 
 menu = pygame_menu.Menu('Welcome', 400, 300,

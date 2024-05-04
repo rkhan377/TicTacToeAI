@@ -2,6 +2,15 @@ class Board:
     def __init__(self):
         self.boardArray = [ ['-']*3 for i in range(3)]
 
+    def setBoard(self, letters): #sets board to a specific state for testing
+        if len(letters) != 9:
+            return None
+        i = 0
+        for row in range(3):
+            for col in range(3):
+                self.boardArray[row][col] = letters[i]
+                i = i+1
+
     def setLetter(self, letter, row, col):
         if self.boardArray[row][col] == '-':
             self.boardArray[row][col] = letter
@@ -28,15 +37,15 @@ class Board:
     def isGameDone(self):
         if self.checkWin('X'):
             print("X wins")
-            return True
+            return "X"
         if self.checkWin('O'):
             print("O wins")
-            return True
+            return "O"
         for row in self.boardArray:
             if any(space == '-' for space in row):
-                return False
+                return "In Progress"
         print("Tie")
-        return True
+        return "Tie"
     
     def printBoard(self):
         for row in self.boardArray:
