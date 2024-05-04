@@ -38,15 +38,15 @@ class Board:
     
     def isGameDone(self):
         if self.checkWin('X'):
-            print("X wins")
+            #print("X wins")
             return "X"
         if self.checkWin('O'):
-            print("O wins")
+            #print("O wins")
             return "O"
         for row in self.boardArray:
             if any(space == '-' for space in row):
                 return "In Progress"
-        print("Tie")
+        #print("Tie")
         return "Tie"
     
     def printBoard(self):
@@ -55,7 +55,15 @@ class Board:
     
     def copy(self):
         cpy = Board()
-        cpy.boardArray = copy.deepcopy(self.boardArray)
+        for row in range(3):
+            for col in range(3):
+                cpy.boardArray[row][col] = self.boardArray[row][col]
         return cpy
-
-
+    
+    def listFreeSpaces(board): #return a list of tuples for each empty space on the board
+        res = []
+        for row in range(3):
+            for col in range(3):
+                if board.boardArray[row][col] == '-':
+                    res.append((row,col))
+        return res
