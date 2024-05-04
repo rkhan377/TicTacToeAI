@@ -30,7 +30,7 @@ def minimax(board, maxingPlayer): #minimax traverses the tree
             outcomeValues =[] #value of each children node
             for freeSpace in freeSpaces:
                 newBoard = Board()
-                newBoard.boardArray=board.boardArray
+                board.copyTo(newBoard)
                 newBoard.setLetter(maxingPlayer,freeSpace[0],freeSpace[1])
                 x = minimax(newBoard,"O")
                 outcomeValues.append(x)
@@ -42,7 +42,7 @@ def minimax(board, maxingPlayer): #minimax traverses the tree
             outcomeValues =[] #value of each children node
             for freeSpace in freeSpaces:
                 newBoard = Board()
-                newBoard.boardArray=board.boardArray
+                board.copyTo(newBoard)
                 newBoard.setLetter(maxingPlayer,freeSpace[0],freeSpace[1])
                 value = min(minimax(newBoard,"X"),value)
             return value

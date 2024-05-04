@@ -53,9 +53,8 @@ class Board:
         for row in self.boardArray:
             print(row)
     
-    def copy(self):
-        cpy = Board()
-        cpy.boardArray = copy.deepcopy(self.boardArray)
-        return cpy
-
+    def copyTo(self, copy):
+        for row in range(3):
+            for col in range(3):
+                copy.boardArray[row][col] = self.boardArray[row][col]
 
