@@ -8,10 +8,36 @@ class BoardNode:
         self.children = []
 
 class Opponent:
-    def __init__(self, letter, difficulty = "hard"):
+    def __init__(self, letter, difficulty = "hard", limit = 100):
         self.letter = letter
         self.difficulty = difficulty
+        self.limit = limit
         self.opponent = 'O' if letter == 'X' else 'X'
+        
+    # 4x4 heuristic
+    def heuristic4(self, board):
+        adjacent = []
+        for i in range(board.size):
+            for j in range(board.size):
+                if board.boardArray[i][j] == self.letter:
+                    if i - 1 >= 0 and board.boardArray[i - 1][j] == "-":
+                        adjacent.append((i - 1, j))
+                    if i + 1 <= board.size - 1 and board.boardArray[i + 1][j] == "-":
+                        adjacent.append((i + 1, j))
+                    if j - 1 >= 0 and board.boardArray[i][j - 1] == "-":
+                        adjacent.append((i, j - 1))
+                    if j + 1 <= board.size - 1 and board.boardArray[i][j + 1] == "-":
+                        adjacent.append((i, j + 1))
+        if len(adjacent) == 0:
+            while True:
+                row = random.randint(0, board.size - 1)
+                col = random.randint(0, board.size - 1)
+                if board.boardArray[row][col] == "-":
+                    return (row, col)
+        
+        r = random.randint(0, len(adjacent) - 1)
+        return adjacent[r]
+                    
     
     def minimax(self, board, depth, maxingPlayer): #minimax traverses the tree
     #check if terminal state
@@ -22,9 +48,12 @@ class Opponent:
             return -100
         elif board.isGameDone() == "Tie":
             return 0
+        elif depth == self.limit:
+            return 0
         else:
             #newBoard = board.copy()
             freeSpaces = board.listFreeSpaces()
+                
             
             if maxingPlayer == self.letter:
                 value = -1000
@@ -51,7 +80,11 @@ class Opponent:
     def playTurn(self, board):
         bestTile = (-1, -1)
         bestScore = -100000
-        for move in board.listFreeSpaces():
+        free = board.listFreeSpaces()
+        if len(free) >= 12:
+            return self.heuristic4(board)
+            
+        for move in free:
             newBoard = board.copy()
             newBoard.setLetter(self.letter,move[0],move[1])
             score = self.minimax(newBoard, 0, self.opponent)
