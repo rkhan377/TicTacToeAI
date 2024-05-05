@@ -1,15 +1,16 @@
 import copy
 
 class Board:
-    def __init__(self):
-        self.boardArray = [ ['-']*3 for i in range(3)]
+    def __init__(self, size = 3):
+        self.size = size
+        self.boardArray = [ ['-']*size for i in range(size)]
 
     def setBoard(self, letters): #sets board to a specific state for testing
-        if len(letters) != 9:
+        if len(letters) != self.size * self.size:
             return None
         i = 0
-        for row in range(3):
-            for col in range(3):
+        for row in range(self.size):
+            for col in range(self.size):
                 self.boardArray[row][col] = letters[i]
                 i = i+1
 
@@ -26,12 +27,12 @@ class Board:
                 return True
 
         # Check columns
-        for col in range(3):
-            if all(self.boardArray[row][col] == letter for row in range(3)):
+        for col in range(self.size):
+            if all(self.boardArray[row][col] == letter for row in range(self.size)):
                 return True
 
         # Check diagonals
-        if all(self.boardArray[i][i] == letter for i in range(3)) or all(self.boardArray[i][2-i] == letter for i in range(3)):
+        if all(self.boardArray[i][i] == letter for i in range(self.size)) or all(self.boardArray[i][2-i] == letter for i in range(self.size)):
             return True
 
         return False
@@ -54,16 +55,16 @@ class Board:
             print(row)
     
     def copy(self):
-        cpy = Board()
-        for row in range(3):
-            for col in range(3):
+        cpy = Board(self.size)
+        for row in range(self.size):
+            for col in range(self.size):
                 cpy.boardArray[row][col] = self.boardArray[row][col]
         return cpy
     
-    def listFreeSpaces(board): #return a list of tuples for each empty space on the board
+    def listFreeSpaces(self): #return a list of tuples for each empty space on the board
         res = []
-        for row in range(3):
-            for col in range(3):
-                if board.boardArray[row][col] == '-':
+        for row in range(self.size):
+            for col in range(self.size):
+                if self.boardArray[row][col] == '-':
                     res.append((row,col))
         return res

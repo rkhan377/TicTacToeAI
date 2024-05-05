@@ -3,7 +3,7 @@ from Opponent import Opponent
 import random
 
 #intialize board
-board = Board()
+board = Board(4)
 #set turn counter
 turn = 1
 #variable used to check if we need to regenerate where to place next letter 
@@ -11,21 +11,26 @@ notPlaced = True
 # loop until tie or winner
 
 
-bot = Opponent("X")
-bot2 = Opponent("O")
+bot = Opponent("X", "med")
+bot2 = Opponent("O", "hard")
 
 # start with a random placement
-row = random.randint(0,2)
-col = random.randint(0,2)
+'''
+row = random.randint(0,board.size - 1)
+col = random.randint(0,board.size - 1)
 board.boardArray[row][col] = bot2.letter
+board.printBoard()
+'''
+
+board.setBoard(["X", "O", "X", "O", "X", "O", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"])
 board.printBoard()
 
 while "In Progress" == board.isGameDone():
     if turn % 2 != 0: #if the turn is odd, Xs turn
         while notPlaced:
-            #row = random.randint(0,2)
-            #col = random.randint(0,2)
-            row, col = bot.playTurn(board)
+            row = random.randint(0,3)
+            col = random.randint(0,3)
+            #row, col = bot.playTurn(board)
             notPlaced = not board.setLetter(bot.letter,row,col)
             #print(('X',row,col))
         notPlaced = True
