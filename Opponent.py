@@ -1,14 +1,9 @@
 from Board import Board
 import random
 
-class BoardNode:
-    def __init__(self):
-        self.boardState = None
-        self.value = None
-        self.children = []
 
 class Opponent:
-    def __init__(self, letter, difficulty = "hard", limit = 100):
+    def __init__(self, letter, difficulty,limit):
         self.letter = letter
         self.difficulty = difficulty
         self.limit = limit
@@ -81,7 +76,14 @@ class Opponent:
         bestTile = (-1, -1)
         bestScore = -100000
         free = board.listFreeSpaces()
-        if len(free) >= 12:
+        if self.difficulty == 'rdm':
+            row = random.randint(0, board.size - 1)
+            col = random.randint(0, board.size - 1)
+            while board.boardArray[row][col] != '-':
+                row = random.randint(0, board.size - 1)
+                col = random.randint(0, board.size - 1)
+            return (row,col)
+        if len(free) >= 10:
             return self.heuristic4(board)
             
         for move in free:
