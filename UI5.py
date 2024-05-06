@@ -65,12 +65,15 @@ def run_game():
         row, col = ai_opponent.playTurn(board)
         board.setLetter(ai_opponent.letter, row, col)
         player_turn = True  # Hand turn over to player
+        turn_number = 2  # Since AI made the first move
         update_display(board, sprite_group)  # Update display after AI's move
         draw_feedback(surface, turn_number, player_turn, "In Progress")
         pygame.display.flip()
 
     while running:
         game_status = board.isGameDone()
+        draw_feedback(surface, turn_number, player_turn, game_status)
+        pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -109,12 +112,17 @@ def draw_feedback(surface, turn_number, player_turn, game_status):
     pygame.draw.rect(surface, FEEDBACK_AREA_COLOR, (0, 0, 600, FEEDBACK_AREA_HEIGHT))
     font = pygame.font.Font(None, FONT_SIZE)
     if game_status == "In Progress":
-        turn_info = f"Turn: {turn_number}, {'Player X' if player_turn else 'Player O'}'s turn"
+        if player_letter == "X":
+            current_player = 'Player X' if player_turn else 'Computer O'
+        else:
+            current_player = 'Player O' if player_turn else 'Computer X'
+        turn_info = f"Turn: {turn_number}, {current_player}'s turn"
     else:
-        turn_info = f"Game Over! Result: {game_status}. Click to Return"
+        turn_info = f"Game Over: {game_status}. Click to Return"
 
     text_surface = font.render(turn_info, True, TEXT_COLOR)
     surface.blit(text_surface, (10, FEEDBACK_AREA_HEIGHT // 2 - text_surface.get_height() // 2))
+    pygame.display.flip()
 
 def handle_end_game(surface, game_status):
     font = pygame.font.Font(None, FONT_SIZE)
