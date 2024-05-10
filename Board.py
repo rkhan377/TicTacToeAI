@@ -33,7 +33,7 @@ class Board:
                 numAdj = 0
 
         numAdj = 0
-        # Check columns
+        # check columns
         transpose = [*zip(*self.boardArray)]
         for row in range(self.size):
             for col in range(self.size):
