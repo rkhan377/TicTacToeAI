@@ -1,14 +1,8 @@
 from Board import Board
 import random
 
-class BoardNode:
-    def __init__(self):
-        self.boardState = None
-        self.value = None
-        self.children = []
-
 class Opponent:
-    def __init__(self, letter, difficulty = "hard", limit = 100):
+    def __init__(self, letter, difficulty, limit = 17):
         self.letter = letter
         self.difficulty = difficulty
         self.limit = limit
@@ -81,7 +75,9 @@ class Opponent:
         bestTile = (-1, -1)
         bestScore = -100000
         free = board.listFreeSpaces()
-        if len(free) >= 12:
+        if len(free) == board.size*board.size:
+            return (0,0)
+        if len(free) >= 8 and board.size == 4:
             return self.heuristic4(board)
             
         for move in free:
@@ -108,23 +104,3 @@ class Opponent:
         else:
             return bestTile
                 
-    '''
-    def playTurn3(self, board):
-        finalMove = None
-        possibleMoves = listFreeSpaces(board)
-        futureMoveBoardStates = []
-        for i in possibleMoves:
-            #newBoard = Board()
-            newBoard = board.copy()
-            newBoard.setLetter(self.letter,i[0],i[1])
-            futureMoveBoardStates.append(newBoard)
-        moveValues = []
-        for i in futureMoveBoardStates:
-            moveValues.append(self.minimax(i,0,self.opponent))
-        print(moveValues)
-        if self.letter == "X":
-            finalMove = possibleMoves[(moveValues.index(max(moveValues)))]
-        else:
-            finalMove = possibleMoves[(moveValues.index(min(moveValues)))]
-        return finalMove
-    '''

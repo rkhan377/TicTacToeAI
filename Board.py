@@ -1,7 +1,7 @@
 import copy
 
 class Board:
-    def __init__(self, size = 3):
+    def __init__(self, size):
         self.size = size
         self.boardArray = [ ['-']*size for i in range(size)]
 
@@ -21,18 +21,43 @@ class Board:
         return False
 
     def checkWin(self, letter):
-        # Check rows
-        for row in self.boardArray:
-            if all(space == letter for space in row):
+        numAdj = 0
+        #check rows
+        for row in range(self.size):
+            for col in range(self.size):
+                if self.boardArray[row][col] == letter:
+                        numAdj=numAdj+1
+            if numAdj == self.size:
                 return True
+            else:
+                numAdj = 0
 
+        numAdj = 0
         # Check columns
-        for col in range(self.size):
-            if all(self.boardArray[row][col] == letter for row in range(self.size)):
+        transpose = [*zip(*self.boardArray)]
+        for row in range(self.size):
+            for col in range(self.size):
+                if transpose[row][col] == letter:
+                        numAdj=numAdj+1
+            if numAdj == self.size:
                 return True
+            else:
+                numAdj = 0
 
-        # Check diagonals
-        if all(self.boardArray[i][i] == letter for i in range(self.size)) or all(self.boardArray[i][2-i] == letter for i in range(self.size)):
+        numAdj = 0
+        # \ diagonal
+        for i in range(self.size):
+            if self.boardArray[i][i] == letter:
+                numAdj = numAdj+1
+        if numAdj == self.size:
+            return True
+        
+        numAdj = 0
+        # / diagonal
+        for i in range(self.size):
+            if self.boardArray[(self.size-1)-i][i] == letter:
+                numAdj = numAdj+1
+        if numAdj == self.size:
             return True
 
         return False
@@ -55,11 +80,11 @@ class Board:
             print(row)
     
     def copy(self):
-        cpy = Board(self.size)
+        copy = Board(self.size)
         for row in range(self.size):
             for col in range(self.size):
-                cpy.boardArray[row][col] = self.boardArray[row][col]
-        return cpy
+                copy.boardArray[row][col] = self.boardArray[row][col]
+        return copy
     
     def listFreeSpaces(self): #return a list of tuples for each empty space on the board
         res = []
